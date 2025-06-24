@@ -697,7 +697,7 @@ class MealPlanner {
                 
                 // Format meal names with counts
                 const mealDisplay = Object.entries(mealCounts)
-                    .map(([mealName, count]) => count > 1 ? `${mealName} x${count}` : mealName)
+                    .map(([mealName, count]) => count > 1 ? `${mealName} (for ${count} meals)` : `${mealName} (for 1 meal)`)
                     .join(', ');
                 
                 sources.push(`registered meals: <em>${mealDisplay}</em>`);
