@@ -76,6 +76,8 @@ class MealPlanner {
                 person4: 'Person 4',
                 person5: 'Person 5'
             };
+            
+            this.customGroceryAmounts = await this.loadFromStorage('customGroceryAmounts') || {};
 
             this.isLoading = false;
             this.hideLoadingScreen();
@@ -185,6 +187,7 @@ class MealPlanner {
         await this.saveToStorage('ingredients', this.ingredients);
         await this.saveToStorage('personNames', this.personNames);
         await this.saveToStorage('archive', this.archive);
+        await this.saveToStorage('customGroceryAmounts', this.customGroceryAmounts);
     }
 
     switchTab(tabName) {
@@ -479,26 +482,26 @@ class MealPlanner {
 
     async saveIngredient() {
         const nameInput = document.getElementById('ingredient-name');
-        const quantityInput = document.getElementById('ingredient-quantity');
+        const mealsInput = document.getElementById('ingredient-quantity');
         const name = nameInput.value.trim();
-        const quantity = parseInt(quantityInput.value) || 1;
+        const meals = parseInt(mealsInput.value) || 1;
 
         if (!name) {
             alert('Please enter an ingredient name.');
             return;
         }
 
-        if (quantity < 1) {
-            alert('Quantity must be at least 1.');
+        if (meals < 1) {
+            alert('Number of meals must be at least 1.');
             return;
         }
 
         if (this.ingredients[name]) {
-            // If ingredient exists, add to existing quantity
-            this.ingredients[name] += quantity;
+            // If ingredient exists, add to existing meal count
+            this.ingredients[name] += meals;
         } else {
             // New ingredient
-            this.ingredients[name] = quantity;
+            this.ingredients[name] = meals;
         }
 
         await this.saveToStorage('ingredients', this.ingredients);
@@ -530,16 +533,19 @@ class MealPlanner {
             return;
         }
 
-        ingredientList.innerHTML = Object.entries(this.ingredients).map(([ingredient, quantity]) => `
+        ingredientList.innerHTML = Object.entries(this.ingredients).map(([ingredient, meals]) => {
+            const mealText = meals === 1 ? '1 meal' : `${meals} meals`;
+            return `
             <li class="ingredient-item">
-                <span>${ingredient} x${quantity}</span>
+                <span>${ingredient} (${mealText})</span>
                 <div class="ingredient-controls">
                     <button class="btn btn-secondary btn-small" onclick="window.mealPlanner.adjustIngredientQuantity('${ingredient}', -1)">-</button>
                     <button class="btn btn-secondary btn-small" onclick="window.mealPlanner.adjustIngredientQuantity('${ingredient}', 1)">+</button>
                     <button class="btn btn-danger btn-small" onclick="window.mealPlanner.deleteIngredient('${ingredient}')">Remove</button>
                 </div>
             </li>
-        `).join('');
+        `;
+        }).join('');
     }
 
     adjustIngredientQuantity(ingredient, change) {
@@ -672,9 +678,10 @@ class MealPlanner {
                 <div style="margin-top: 20px;">
                     <strong>Ingredients you'll be using:</strong>
                     <ul>
-                        ${Object.keys(ingredientCounts).map(ing => `
-                            <li>${ing}${ingredientCounts[ing] > 1 ? ` x${ingredientCounts[ing]}` : ''}</li>
-                        `).join('')}
+                        ${Object.keys(ingredientCounts).map(ing => {
+                            const mealText = ingredientCounts[ing] === 1 ? '1 meal' : `${ingredientCounts[ing]} meals`;
+                            return `<li>${ing} (${mealText})</li>`;
+                        }).join('')}
                     </ul>
                 </div>
             `;
@@ -682,7 +689,18 @@ class MealPlanner {
             // Build description of what ingredients are from
             const sources = [];
             if (plannedMeals.length > 0) {
-                sources.push(`registered meals: <em>${plannedMeals.map(m => m.name).join(', ')}</em>`);
+                // Count meal occurrences
+                const mealCounts = {};
+                plannedMeals.forEach(meal => {
+                    mealCounts[meal.name] = (mealCounts[meal.name] || 0) + 1;
+                });
+                
+                // Format meal names with counts
+                const mealDisplay = Object.entries(mealCounts)
+                    .map(([mealName, count]) => count > 1 ? `${mealName} x${count}` : mealName)
+                    .join(', ');
+                
+                sources.push(`registered meals: <em>${mealDisplay}</em>`);
             }
             if (commaSeparatedIngredients.length > 0) {
                 const uniqueCommaSeparated = [...new Set(commaSeparatedIngredients)];
@@ -700,10 +718,22 @@ class MealPlanner {
                 if (hasSections) groceryContent += `<hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">`;
                 groceryContent += `
                     <strong>🛒 Buy:</strong>
-                    <ul>
-                        ${neededIngredients.map(item => `
-                            <li>${item.name}${item.need > 1 ? ` x${item.need}` : ''}</li>
-                        `).join('')}
+                    <ul style="list-style: none; padding-left: 0;">
+                        ${neededIngredients.map(item => {
+                            const customAmount = this.customGroceryAmounts[item.name] || '';
+                            const mealText = item.need === 1 ? '1 meal' : `${item.need} meals`;
+                            return `
+                                <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                    <span style="flex: 1;">${item.name} (for ${mealText})</span>
+                                    <input type="text" 
+                                           value="${customAmount}" 
+                                           placeholder="Custom amount" 
+                                           style="width: 120px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;"
+                                           onchange="window.mealPlanner.saveCustomGroceryAmount('${item.name}', this.value)"
+                                           oninput="window.mealPlanner.saveCustomGroceryAmount('${item.name}', this.value)">
+                                </li>
+                            `;
+                        }).join('')}
                     </ul>
                 `;
                 hasSections = true;
@@ -713,10 +743,23 @@ class MealPlanner {
                 if (hasSections) groceryContent += `<hr style="margin: 20px 0; border: none; border-top: 1px solid #ddd;">`;
                 groceryContent += `
                     <strong>⚠️ Need more:</strong>
-                    <ul>
-                        ${shortIngredients.map(item => `
-                            <li>${item.name} x${item.need} (have ${item.have})</li>
-                        `).join('')}
+                    <ul style="list-style: none; padding-left: 0;">
+                        ${shortIngredients.map(item => {
+                            const customAmount = this.customGroceryAmounts[item.name] || '';
+                            const totalNeed = item.need + item.have;
+                            const mealText = totalNeed === 1 ? '1 meal' : `${totalNeed} meals`;
+                            return `
+                                <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
+                                    <span style="flex: 1;">${item.name} (for ${mealText}, have ${item.have})</span>
+                                    <input type="text" 
+                                           value="${customAmount}" 
+                                           placeholder="Custom amount" 
+                                           style="width: 120px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;"
+                                           onchange="window.mealPlanner.saveCustomGroceryAmount('${item.name}', this.value)"
+                                           oninput="window.mealPlanner.saveCustomGroceryAmount('${item.name}', this.value)">
+                                </li>
+                            `;
+                        }).join('')}
                     </ul>
                 `;
                 hasSections = true;
@@ -1296,6 +1339,20 @@ class MealPlanner {
             // Fallback: try to use a simple beep
             console.log('Bell sound notification: Task completed!');
         }
+    }
+
+    async saveCustomGroceryAmount(ingredientName, amount) {
+        if (amount.trim() === '') {
+            // Remove the custom amount if empty
+            delete this.customGroceryAmounts[ingredientName];
+        } else {
+            // Save the custom amount
+            this.customGroceryAmounts[ingredientName] = amount.trim();
+        }
+        
+        // Save to storage
+        await this.saveToStorage('customGroceryAmounts', this.customGroceryAmounts);
+        console.log(`Saved custom amount for ${ingredientName}: "${amount}"`);
     }
 }
 

@@ -17,7 +17,7 @@ This is a client-side Weekly Meal Planner web application built with vanilla HTM
 The application supports both local (localStorage) and shared (Firebase Firestore) storage with these key data objects:
 - `weeklyPlan`: Nested structure `{day: {person: {mealType: mealName}}}`
 - `meals`: Array of meal objects with `{id, name, ingredients[]}`
-- `ingredients`: Object mapping ingredient names to quantities `{ingredientName: quantity}`
+- `ingredients`: Object mapping ingredient names to meal counts `{ingredientName: meals}`
 - `personNames`: Object mapping person IDs to display names
 - `archive`: Array of saved weekly plans
 
@@ -73,7 +73,7 @@ Every meal input requires three data attributes:
 ### localStorage Keys
 - `weeklyPlan`: Current week's meal planning data
 - `meals`: Available meal options with ingredients
-- `ingredients`: Available ingredients with quantities
+- `ingredients`: Available ingredients with meal counts
 - `personNames`: Custom names for each person
 - `archive`: Saved weekly meal plans
 
