@@ -441,9 +441,11 @@ class MealPlanner {
 
     checkMealRegistration(input) {
         const mealName = input.value.trim();
+        console.log(`🔍 CHECKING REGISTRATION: "${mealName}"`);
 
         if (!mealName) {
             input.classList.remove('unregistered');
+            console.log(`    ✅ Empty meal, removing unregistered class`);
             return;
         }
 
@@ -453,11 +455,16 @@ class MealPlanner {
 
         // Also consider comma-separated ingredients as "registered"
         const isCommaSeparated = mealName.includes(',');
+        
+        console.log(`    📋 Is registered meal: ${isRegistered}`);
+        console.log(`    🥗 Is comma-separated: ${isCommaSeparated}`);
 
         if (isRegistered || isCommaSeparated) {
             input.classList.remove('unregistered');
+            console.log(`    ✅ ACCEPTED: Removing unregistered class`);
         } else {
             input.classList.add('unregistered');
+            console.log(`    ❌ REJECTED: Adding unregistered class (RED)`);
         }
     }
 
@@ -552,22 +559,26 @@ class MealPlanner {
     }
 
     processMealName(mealName, plannedMealNames, plannedMeals, commaSeparatedIngredients) {
+        console.log(`🔍 PROCESSING MEAL: "${mealName}"`);
         plannedMealNames.push(mealName);
         
         // First, try to find it as a registered meal
         const meal = this.meals.find(m => m.name.toLowerCase() === mealName.toLowerCase());
+        console.log(`📋 Available meals:`, this.meals.map(m => m.name));
         
         if (meal) {
             plannedMeals.push(meal);
-            console.log(`    ✓ Found meal with ingredients:`, meal);
+            console.log(`    ✅ Found registered meal with ingredients:`, meal);
         } else {
+            console.log(`    ❌ No registered meal found for: "${mealName}"`);
             // Check if it contains commas - if so, treat as comma-separated ingredients
             if (mealName.includes(',')) {
                 const ingredients = mealName.split(',').map(ingredient => ingredient.trim()).filter(ingredient => ingredient);
                 commaSeparatedIngredients.push(...ingredients);
-                console.log(`    ✓ Parsed as comma-separated ingredients:`, ingredients);
+                console.log(`    🥗 Parsed as comma-separated ingredients:`, ingredients);
+                console.log(`    📦 Total comma-separated ingredients so far:`, commaSeparatedIngredients);
             } else {
-                console.log(`    ✗ No meal option found for: "${mealName}"`);
+                console.log(`    ⚠️ Not comma-separated, marking as unregistered: "${mealName}"`);
             }
         }
     }
