@@ -720,17 +720,20 @@ class MealPlanner {
                     <strong>🛒 Buy:</strong>
                     <ul style="list-style: none; padding-left: 0;">
                         ${neededIngredients.map(item => {
-                            const customAmount = this.customGroceryAmounts[item.name] || '';
                             const mealText = item.need === 1 ? '1 meal' : `${item.need} meals`;
+                            const defaultAmount = `${item.need}`;
+                            const customAmount = this.customGroceryAmounts[item.name] || defaultAmount;
+                            const displayAmount = customAmount !== defaultAmount ? customAmount : defaultAmount;
                             return `
                                 <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-                                    <span style="flex: 1;">${item.name} (for ${mealText})</span>
+                                    <span style="margin-right: 10px;">${item.name}:</span>
                                     <input type="text" 
-                                           value="${customAmount}" 
-                                           placeholder="Custom amount" 
+                                           value="${displayAmount}" 
+                                           placeholder="${defaultAmount}" 
                                            style="width: 120px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;"
                                            onchange="window.mealPlanner.saveCustomGroceryAmount('${item.name}', this.value)"
                                            oninput="window.mealPlanner.saveCustomGroceryAmount('${item.name}', this.value)">
+                                    <span style="margin-left: 5px; font-size: 0.9em; color: #666;">(for ${mealText})</span>
                                 </li>
                             `;
                         }).join('')}
@@ -745,18 +748,21 @@ class MealPlanner {
                     <strong>⚠️ Need more:</strong>
                     <ul style="list-style: none; padding-left: 0;">
                         ${shortIngredients.map(item => {
-                            const customAmount = this.customGroceryAmounts[item.name] || '';
                             const totalNeed = item.need + item.have;
                             const mealText = totalNeed === 1 ? '1 meal' : `${totalNeed} meals`;
+                            const defaultAmount = `${item.need}`;
+                            const customAmount = this.customGroceryAmounts[item.name] || defaultAmount;
+                            const displayAmount = customAmount !== defaultAmount ? customAmount : defaultAmount;
                             return `
                                 <li style="margin-bottom: 10px; display: flex; align-items: center; gap: 10px;">
-                                    <span style="flex: 1;">${item.name} (for ${mealText}, have ${item.have})</span>
+                                    <span style="margin-right: 10px;">${item.name}:</span>
                                     <input type="text" 
-                                           value="${customAmount}" 
-                                           placeholder="Custom amount" 
+                                           value="${displayAmount}" 
+                                           placeholder="${defaultAmount}" 
                                            style="width: 120px; padding: 5px; border: 1px solid #ddd; border-radius: 4px;"
                                            onchange="window.mealPlanner.saveCustomGroceryAmount('${item.name}', this.value)"
                                            oninput="window.mealPlanner.saveCustomGroceryAmount('${item.name}', this.value)">
+                                    <span style="margin-left: 5px; font-size: 0.9em; color: #666;">(need ${item.need} more, for ${mealText}, have ${item.have})</span>
                                 </li>
                             `;
                         }).join('')}
