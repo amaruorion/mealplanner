@@ -35,7 +35,7 @@ The app has dual storage capability:
 
 **Backward Compatibility**: The `loadWeeklyPlan()` method handles both old format (single meal per person/day) and new format (breakfast/lunch/dinner per person/day) through type checking.
 
-**Grocery List Generation**: Automatically calculates needed ingredients by cross-referencing planned meals with the meal database and comparing against available ingredients.
+**Grocery List Generation**: Automatically calculates needed ingredients by cross-referencing planned meals with the meal database and comparing against available ingredients. Also supports comma-separated ingredient lists (e.g., "grapes, bread, milk") which are parsed automatically without needing to create meal options.
 
 ## Development Commands
 
@@ -96,3 +96,13 @@ The table uses `meal-cell` CSS class with flexbox column layout. Each cell conta
 
 ### Adding New Data Types
 Follow the pattern: Add to constructor defaults → Add save/load logic → Add cleanup/migration if needed → Update relevant rendering methods.
+
+### Comma-Separated Ingredient Parsing
+The app automatically detects and parses comma-separated ingredient lists entered directly in meal input fields:
+
+- **Detection**: If a meal name contains commas and isn't found in the meals database, it's treated as a comma-separated ingredient list
+- **Processing**: Done via `processMealName()` method which handles both registered meals and comma-separated ingredients
+- **Visual Feedback**: Comma-separated meals don't show as "unregistered" (no red highlighting)
+- **Grocery List**: Both registered meal ingredients and comma-separated ingredients contribute to the grocery list
+
+Example: Entering "apples, bananas, yogurt" automatically creates a grocery list with those three ingredients without needing to create a meal option.

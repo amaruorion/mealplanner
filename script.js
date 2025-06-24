@@ -451,7 +451,10 @@ class MealPlanner {
             meal.name.toLowerCase() === mealName.toLowerCase()
         );
 
-        if (isRegistered) {
+        // Also consider comma-separated ingredients as "registered"
+        const isCommaSeparated = mealName.includes(',');
+
+        if (isRegistered || isCommaSeparated) {
             input.classList.remove('unregistered');
         } else {
             input.classList.add('unregistered');
@@ -548,10 +551,32 @@ class MealPlanner {
         this.updateGroceryStatus();
     }
 
+    processMealName(mealName, plannedMealNames, plannedMeals, commaSeparatedIngredients) {
+        plannedMealNames.push(mealName);
+        
+        // First, try to find it as a registered meal
+        const meal = this.meals.find(m => m.name.toLowerCase() === mealName.toLowerCase());
+        
+        if (meal) {
+            plannedMeals.push(meal);
+            console.log(`    ✓ Found meal with ingredients:`, meal);
+        } else {
+            // Check if it contains commas - if so, treat as comma-separated ingredients
+            if (mealName.includes(',')) {
+                const ingredients = mealName.split(',').map(ingredient => ingredient.trim()).filter(ingredient => ingredient);
+                commaSeparatedIngredients.push(...ingredients);
+                console.log(`    ✓ Parsed as comma-separated ingredients:`, ingredients);
+            } else {
+                console.log(`    ✗ No meal option found for: "${mealName}"`);
+            }
+        }
+    }
+
     generateGroceryList() {
         const groceryItems = document.getElementById('grocery-items');
         const plannedMeals = [];
         const plannedMealNames = [];
+        const commaSeparatedIngredients = [];
 
         console.log('=== GROCERY LIST GENERATION DEBUG ===');
         console.log('Full weeklyPlan data:', JSON.stringify(this.weeklyPlan, null, 2));
@@ -575,14 +600,7 @@ class MealPlanner {
                     const mealName = personData;
                     console.log(`  ${person} (dinner): "${mealName}" (length: ${mealName ? mealName.length : 0})`);
                     if (mealName && mealName.trim()) {
-                        plannedMealNames.push(mealName.trim());
-                        const meal = this.meals.find(m => m.name === mealName.trim());
-                        if (meal) {
-                            plannedMeals.push(meal);
-                            console.log(`    ✓ Found meal with ingredients:`, meal);
-                        } else {
-                            console.log(`    ✗ No meal option found for: "${mealName.trim()}"`);
-                        }
+                        this.processMealName(mealName.trim(), plannedMealNames, plannedMeals, commaSeparatedIngredients);
                     }
                 } else if (typeof personData === 'object') {
                     // New format - has breakfast, lunch, dinner
@@ -590,14 +608,7 @@ class MealPlanner {
                         const mealName = personData[mealType];
                         console.log(`  ${person} (${mealType}): "${mealName}" (length: ${mealName ? mealName.length : 0})`);
                         if (mealName && mealName.trim()) {
-                            plannedMealNames.push(mealName.trim());
-                            const meal = this.meals.find(m => m.name === mealName.trim());
-                            if (meal) {
-                                plannedMeals.push(meal);
-                                console.log(`    ✓ Found meal with ingredients:`, meal);
-                            } else {
-                                console.log(`    ✗ No meal option found for: "${mealName.trim()}"`);
-                            }
+                            this.processMealName(mealName.trim(), plannedMealNames, plannedMeals, commaSeparatedIngredients);
                         }
                     });
                 }
@@ -606,16 +617,22 @@ class MealPlanner {
 
         console.log('Planned meal names:', plannedMealNames);
         console.log('Found meals with ingredients:', plannedMeals.map(m => m.name));
+        console.log('Comma-separated ingredients found:', commaSeparatedIngredients);
 
-        if (plannedMeals.length === 0) {
+        if (plannedMeals.length === 0 && commaSeparatedIngredients.length === 0) {
             groceryItems.innerHTML = '<div class="empty-state">No meals planned yet. Plan some meals first to generate your grocery list!</div>';
             return;
         }
 
         const allNeededIngredients = [];
+        
+        // Add ingredients from registered meals
         plannedMeals.forEach(meal => {
             allNeededIngredients.push(...meal.ingredients);
         });
+        
+        // Add comma-separated ingredients
+        allNeededIngredients.push(...commaSeparatedIngredients);
 
         const ingredientCounts = {};
         allNeededIngredients.forEach(ingredient => {
@@ -650,9 +667,19 @@ class MealPlanner {
                 </div>
             `;
         } else {
+            // Build description of what ingredients are from
+            const sources = [];
+            if (plannedMeals.length > 0) {
+                sources.push(`registered meals: <em>${plannedMeals.map(m => m.name).join(', ')}</em>`);
+            }
+            if (commaSeparatedIngredients.length > 0) {
+                const uniqueCommaSeparated = [...new Set(commaSeparatedIngredients)];
+                sources.push(`direct ingredients: <em>${uniqueCommaSeparated.join(', ')}</em>`);
+            }
+            
             let groceryContent = `
                 <h3>📝 Grocery List</h3>
-                <p>Ingredients needed for planned meals: <em>${plannedMeals.map(m => m.name).join(', ')}</em></p>
+                <p>Ingredients needed from ${sources.join(' and ')}</p>
             `;
 
             let hasSections = false;
