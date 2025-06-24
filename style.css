@@ -1,0 +1,762 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: #1a1a1a;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 24px;
+    min-height: 100vh;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+header h1 {
+    color: white;
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    letter-spacing: -0.02em;
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 32px;
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 16px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 16px 24px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 500;
+    color: #4a5568;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border-right: 1px solid rgba(0,0,0,0.06);
+    position: relative;
+}
+
+.tab-button:last-child {
+    border-right: none;
+}
+
+.tab-button:hover {
+    background: rgba(99, 102, 241, 0.08);
+    color: #5a67d8;
+}
+
+.tab-button.active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.tab-content {
+    display: none;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 32px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.12);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.table-container {
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    margin-bottom: 24px;
+    overflow: hidden;
+}
+
+.meal-plan-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 14px;
+}
+
+.meal-plan-table th {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 16px 12px;
+    text-align: center;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.025em;
+    border: none;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+.meal-plan-table th:first-child {
+    background: linear-gradient(135deg, #4a5568, #2d3748);
+    text-align: left;
+    min-width: 140px;
+}
+
+.meal-plan-table td {
+    padding: 12px;
+    border: 1px solid rgba(0,0,0,0.05);
+    vertical-align: top;
+    background: white;
+}
+
+.person-name-cell {
+    background: linear-gradient(135deg, #f7fafc, #edf2f7);
+    text-align: left;
+    min-width: 160px;
+    padding: 16px;
+}
+
+.person-name-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 12px;
+    background: white;
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d3748;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.person-name-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 4px 12px rgba(0,0,0,0.08);
+    background-color: white;
+    transform: translateY(-1px);
+}
+
+.meal-plan-table tr:nth-child(even) td {
+    background: #fafafa;
+}
+
+.meal-plan-table tr:hover td {
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.04), rgba(118, 75, 162, 0.04));
+    transform: scale(1.001);
+    transition: all 0.2s ease;
+}
+
+
+.available-meals-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.available-meals-section h3 {
+    color: #2d3748;
+    margin-bottom: 16px;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.available-meals-display {
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    padding: 20px;
+    border-radius: 16px;
+    border: 1px solid rgba(0,0,0,0.05);
+    margin-bottom: 24px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.available-meals-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+}
+
+.available-meal-item {
+    background: white;
+    padding: 16px;
+    border-radius: 12px;
+    border: 1px solid rgba(0,0,0,0.06);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.available-meal-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+}
+
+.available-meal-name {
+    font-weight: 600;
+    color: #2d3748;
+    margin-bottom: 6px;
+    font-size: 15px;
+}
+
+.available-meal-ingredients {
+    font-size: 13px;
+    color: #718096;
+    line-height: 1.5;
+}
+
+.quick-actions {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #eee;
+}
+
+.grocery-status {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: #27ae60;
+    font-weight: 500;
+}
+
+.meal-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 2px solid rgba(0,0,0,0.08);
+    border-radius: 8px;
+    background: white;
+    font-size: 13px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.meal-input:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1), 0 4px 12px rgba(0,0,0,0.08);
+    background-color: white;
+    transform: translateY(-1px);
+}
+
+.meal-input::placeholder {
+    color: #a0aec0;
+    font-style: normal;
+    font-weight: 400;
+}
+
+.meal-cell .meal-input.unregistered {
+    border-color: #f56565;
+    background: linear-gradient(135deg, #fed7d7 0%, #feb2b2 20%, white 20%);
+    color: #c53030;
+}
+
+.meal-cell .meal-input.unregistered:focus {
+    border-color: #e53e3e;
+    box-shadow: 0 0 0 3px rgba(245, 101, 101, 0.1), 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #eee;
+}
+
+.section-header h2 {
+    color: #2d3748;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+}
+
+.btn {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-transform: none;
+    letter-spacing: 0.025em;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(102, 126, 234, 0.3);
+}
+
+.btn-secondary {
+    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e0 100%);
+    color: #4a5568;
+}
+
+.btn-secondary:hover {
+    background: linear-gradient(135deg, #cbd5e0 0%, #a0aec0 100%);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+}
+
+.meal-form, .ingredient-form {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    border: 2px solid #e9ecef;
+}
+
+.meal-form h3 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.meal-form input, .meal-form textarea, .ingredient-form input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.meal-form textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.form-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.ingredient-form {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+}
+
+.ingredient-form input[type="text"] {
+    flex: 2;
+    margin-bottom: 0;
+}
+
+.ingredient-form input[type="number"] {
+    flex: 1;
+    margin-bottom: 0;
+    min-width: 80px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.meal-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.meal-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+}
+
+.meal-item h4 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+}
+
+.meal-item .ingredients {
+    margin-bottom: 15px;
+}
+
+.meal-item .ingredients strong {
+    color: #555;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.meal-item .ingredients ul {
+    margin-left: 20px;
+}
+
+.meal-item .ingredients li {
+    margin-bottom: 3px;
+    color: #666;
+}
+
+.meal-item .meal-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-small {
+    padding: 5px 12px;
+    font-size: 12px;
+}
+
+.btn-danger {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c0392b;
+}
+
+.ingredient-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 10px;
+    list-style: none;
+}
+
+.ingredient-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #e9ecef;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ingredient-item span {
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.ingredient-controls {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.grocery-items {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    min-height: 200px;
+}
+
+.grocery-items h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+}
+
+.grocery-items ul {
+    list-style: disc;
+    padding-left: 20px;
+}
+
+.grocery-items li {
+    padding: 4px 0;
+    color: #555;
+    font-weight: 500;
+}
+
+.empty-state {
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+    padding: 40px;
+}
+
+.archive-controls {
+    display: flex;
+    gap: 10px;
+}
+
+.archive-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.archive-item {
+    background: white;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.2s ease;
+}
+
+.archive-item:hover {
+    border-color: #3498db;
+    box-shadow: 0 2px 10px rgba(52, 152, 219, 0.1);
+}
+
+.archive-dropdown {
+    width: 100%;
+}
+
+.archive-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+    background: #f8f9fa;
+    transition: background-color 0.2s ease;
+}
+
+.archive-header:hover {
+    background: #e9ecef;
+}
+
+.archive-title-section {
+    flex: 1;
+}
+
+.archive-item-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #2c3e50;
+    margin-bottom: 4px;
+}
+
+.archive-item-date {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+}
+
+.archive-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.archive-toggle {
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-left: 10px;
+    transition: transform 0.2s ease;
+}
+
+.btn-archive {
+    padding: 6px 12px;
+    font-size: 12px;
+}
+
+.archive-preview {
+    padding: 20px;
+    background: white;
+    border-top: 1px solid #e9ecef;
+}
+
+.archive-table-container {
+    overflow-x: auto;
+    border-radius: 6px;
+    box-shadow: 0 1px 5px rgba(0,0,0,0.05);
+}
+
+.archive-meal-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    font-size: 12px;
+}
+
+.archive-meal-table th {
+    background: linear-gradient(135deg, #3498db, #2980b9);
+    color: white;
+    padding: 10px 8px;
+    text-align: center;
+    font-weight: 600;
+    border: 1px solid #2980b9;
+    font-size: 11px;
+}
+
+.archive-meal-table th:first-child {
+    background: linear-gradient(135deg, #2c3e50, #34495e);
+    text-align: left;
+    min-width: 80px;
+}
+
+.archive-meal-table td {
+    padding: 8px 6px;
+    border: 1px solid #e9ecef;
+    vertical-align: middle;
+    font-size: 11px;
+}
+
+.archive-person-name {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: left;
+    min-width: 80px;
+}
+
+.archive-meal-cell {
+    color: #555;
+    text-align: center;
+    max-width: 120px;
+    min-width: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    cursor: help;
+}
+
+.archive-meal-cell:empty {
+    background-color: #f9f9f9;
+}
+
+.archive-meal-table tr:nth-child(even) {
+    background: #fdfdfd;
+}
+
+.archive-meal-table tr:hover {
+    background: #f0f8ff;
+}
+
+.meal-cell {
+    padding: 16px 12px;
+    vertical-align: top;
+}
+
+.meal-cell .meal-input {
+    display: block;
+    margin-bottom: 8px;
+}
+
+.meal-cell .meal-input:last-child {
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .tabs {
+        flex-direction: column;
+    }
+    
+    .tab-button {
+        border-right: none;
+        border-bottom: 1px solid #eee;
+    }
+    
+    .tab-button:last-child {
+        border-bottom: none;
+    }
+    
+    .meal-plan-table {
+        font-size: 12px;
+    }
+    
+    .meal-plan-table th,
+    .meal-plan-table td {
+        padding: 8px 6px;
+    }
+    
+    .meal-input {
+        font-size: 12px;
+        padding: 6px 8px;
+    }
+    
+    .meal-cell {
+        padding: 12px 8px;
+    }
+    
+    .meal-cell .meal-input {
+        margin-bottom: 6px;
+    }
+    
+    .person-name-input {
+        font-size: 12px;
+    }
+    
+    .person-name-cell {
+        min-width: 120px;
+    }
+    
+    .archive-controls {
+        flex-direction: column;
+    }
+    
+    .archive-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .archive-actions {
+        justify-content: center;
+    }
+    
+    .archive-meal-table {
+        font-size: 10px;
+    }
+    
+    .archive-meal-table th,
+    .archive-meal-table td {
+        padding: 6px 4px;
+    }
+    
+    .quick-actions {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .section-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .form-buttons {
+        flex-direction: column;
+    }
+    
+    .ingredient-form {
+        flex-direction: column;
+    }
+    
+    .meal-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .ingredient-list {
+        grid-template-columns: 1fr;
+    }
+}

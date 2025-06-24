@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Planner</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div id="loading-screen" style="text-align: center; padding: 50px; display: none;">
+            <h2>Loading meal planner...</h2>
+            <p>Connecting to shared storage...</p>
+        </div>
+        
+        <div id="main-app">
+            <header>
+                <h1>Weekly Meal Planner</h1>
+            </header>
+
+            <main>
+            <div class="tabs">
+                <button class="tab-button active" data-tab="weekly-plan">Weekly Plan</button>
+                <button class="tab-button" data-tab="meal-options">Meal Options</button>
+                <button class="tab-button" data-tab="ingredients">Available Ingredients</button>
+                <button class="tab-button" data-tab="grocery-list">Grocery List</button>
+                <button class="tab-button" data-tab="archive">Archive</button>
+            </div>
+
+            <div id="weekly-plan" class="tab-content active">
+                <div class="table-container">
+                    <table class="meal-plan-table">
+                        <thead>
+                            <tr>
+                                <th>Person</th>
+                                <th>Monday</th>
+                                <th>Tuesday</th>
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                                <th>Saturday</th>
+                                <th>Sunday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="person-name-cell">
+                                    <input type="text" class="person-name-input" data-person="person1" placeholder="Person 1" value="Person 1">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person1" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person1" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person1" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person1" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person1" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person1" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person1" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person1" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person1" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person1" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person1" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person1" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person1" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person1" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person1" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person1" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person1" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person1" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person1" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person1" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person1" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="person-name-cell">
+                                    <input type="text" class="person-name-input" data-person="person2" placeholder="Person 2" value="Person 2">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person2" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person2" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person2" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person2" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person2" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person2" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person2" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person2" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person2" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person2" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person2" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person2" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person2" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person2" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person2" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person2" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person2" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person2" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person2" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person2" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person2" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="person-name-cell">
+                                    <input type="text" class="person-name-input" data-person="person3" placeholder="Person 3" value="Person 3">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person3" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person3" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person3" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person3" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person3" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person3" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person3" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person3" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person3" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person3" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person3" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person3" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person3" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person3" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person3" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person3" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person3" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person3" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person3" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person3" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person3" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="person-name-cell">
+                                    <input type="text" class="person-name-input" data-person="person4" placeholder="Person 4" value="Person 4">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person4" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person4" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person4" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person4" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person4" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person4" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person4" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person4" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person4" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person4" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person4" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person4" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person4" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person4" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person4" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person4" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person4" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person4" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person4" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person4" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person4" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="person-name-cell">
+                                    <input type="text" class="person-name-input" data-person="person5" placeholder="Person 5" value="Person 5">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person5" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person5" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="monday" data-person="person5" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person5" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person5" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="tuesday" data-person="person5" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person5" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person5" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="wednesday" data-person="person5" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person5" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person5" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="thursday" data-person="person5" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person5" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person5" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="friday" data-person="person5" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person5" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person5" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="saturday" data-person="person5" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                                <td class="meal-cell">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person5" data-meal="breakfast" placeholder="Breakfast">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person5" data-meal="lunch" placeholder="Lunch">
+                                    <input type="text" class="meal-input" data-day="sunday" data-person="person5" data-meal="dinner" placeholder="Dinner">
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="available-meals-section">
+                    <h3>📝 Available Meals</h3>
+                    <div id="available-meals-display" class="available-meals-display">
+                        <div class="empty-state">No meals added yet. Go to "Meal Options" tab to add some meals!</div>
+                    </div>
+                </div>
+                <div class="quick-actions">
+                    <button id="save-current-btn" class="btn btn-primary">Save</button>
+                    <button id="clear-week-btn" class="btn btn-secondary">Clear Week</button>
+                    <button id="copy-week-btn" class="btn btn-secondary">Copy Last Week</button>
+                    <button id="save-week-btn" class="btn btn-primary">Save Week to Archive</button>
+                    <button id="reset-all-btn" class="btn btn-danger">Reset All Data</button>
+                </div>
+            </div>
+
+            <div id="meal-options" class="tab-content">
+                <div class="section-header">
+                    <h2>Meal Options</h2>
+                    <button id="add-meal-btn" class="btn btn-primary">Add New Meal</button>
+                </div>
+                <div id="meal-list" class="meal-list"></div>
+                
+                <div id="meal-form" class="meal-form hidden">
+                    <h3>Add New Meal</h3>
+                    <input type="text" id="meal-name" placeholder="Meal name" required>
+                    <textarea id="meal-ingredients" placeholder="Enter ingredients (one per line)" required></textarea>
+                    <div class="form-buttons">
+                        <button id="save-meal-btn" class="btn btn-primary">Save Meal</button>
+                        <button id="cancel-meal-btn" class="btn btn-secondary">Cancel</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="ingredients" class="tab-content">
+                <div class="section-header">
+                    <h2>Available Ingredients</h2>
+                    <button id="add-ingredient-btn" class="btn btn-primary">Add Ingredient</button>
+                </div>
+                <div id="ingredient-form" class="ingredient-form hidden">
+                    <input type="text" id="ingredient-name" placeholder="Ingredient name" required>
+                    <input type="number" id="ingredient-quantity" placeholder="Quantity" min="1" value="1" required>
+                    <button id="save-ingredient-btn" class="btn btn-primary">Add</button>
+                    <button id="cancel-ingredient-btn" class="btn btn-secondary">Cancel</button>
+                </div>
+                <ul id="ingredient-list" class="ingredient-list"></ul>
+            </div>
+
+            <div id="grocery-list" class="tab-content">
+                <div class="section-header">
+                    <h2>🛒 Grocery List</h2>
+                    <div class="grocery-status">
+                        <span id="grocery-status-text">Auto-updates when you plan meals</span>
+                    </div>
+                </div>
+                <div id="grocery-items" class="grocery-items">
+                    <div class="empty-state">Plan some meals to see your grocery list here!</div>
+                </div>
+            </div>
+
+            <div id="archive" class="tab-content">
+                <div class="section-header">
+                    <h2>📚 Meal Plan Archive</h2>
+                    <div class="archive-controls">
+                        <button id="export-archive-btn" class="btn btn-secondary">Export All Data</button>
+                        <input type="file" id="import-file-input" accept=".json" style="display: none;">
+                        <button id="import-data-btn" class="btn btn-primary">Import Data</button>
+                        <button id="clear-archive-btn" class="btn btn-danger">Clear Archive</button>
+                    </div>
+                </div>
+                <div id="archive-list" class="archive-list">
+                    <div class="empty-state">No archived meal plans yet. Save your current week to start building your archive!</div>
+                </div>
+            </div>
+        </main>
+        </div>
+    </div>
+
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    
+    <script src="script.js"></script>
+</body>
+</html>
