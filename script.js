@@ -442,6 +442,7 @@ class MealPlanner {
     checkMealRegistration(input) {
         const mealName = input.value.trim();
         console.log(`🔍 CHECKING REGISTRATION: "${mealName}"`);
+        console.log(`📏 Length: ${mealName.length}, Characters: [${mealName.split('').join(', ')}]`);
 
         if (!mealName) {
             input.classList.remove('unregistered');
